@@ -1,0 +1,104 @@
+<!-- templates/downtime-activity-sheet.html -->
+<form class="{{cssClass}} flexcol" autocomplete="off">
+
+  {{!-- Item Sheet Header --}}
+  <header class="sheet-header">
+    <img class="profile-img" src="{{item.img}}" data-edit="img" title="{{item.name}}"/>
+    <div class="header-fields">
+      <h1 class="charname"><input name="name" type="text" value="{{item.name}}" placeholder="{{localize 'DOWNTIME.ItemNamePlaceholder'}}"/></h1>
+      <div class="item-details">
+        <div class="item-type">{{localize "ITEM.Type"}}: {{item.type}}</div>
+        <div class="item-status">
+          <label for="system.isComplete" class="checkbox-label">{{localize "DOWNTIME.Completed"}}</label>
+          <input type="checkbox" name="system.isComplete" {{checked system.isComplete}}/>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  {{!-- Sheet Tab Navigation --}}
+  <nav class="sheet-tabs tabs" data-tabs="primary">
+    <a class="item" data-tab="description">{{localize "DOWNTIME.Description"}}</a>
+    <a class="item" data-tab="details">{{localize "DOWNTIME.Details"}}</a>
+    <a class="item" data-tab="outcomes">{{localize "DOWNTIME.OutcomesTab"}}</a> {{!-- New tab --}}
+  </nav>
+
+  {{!-- Sheet Body --}}
+  <section class="sheet-body">
+
+    {{!-- Description Tab --}}
+    <div class="tab description" data-tab="description">
+      <div class="editor-container">
+        {{editor system.description target="system.description" button=true owner=owner editable=editable}}
+      </div>
+    </div>
+
+    {{!-- Details Tab --}}
+    <div class="tab details" data-tab="details">
+      <div class="form-group">
+        <label>{{localize "DOWNTIME.Duration"}}</label>
+        <input type="text" name="system.duration" value="{{system.duration}}" data-dtype="String"/>
+      </div>
+
+      <div class="form-group">
+        <label>{{localize "DOWNTIME.Cost"}}</label>
+        <input type="text" name="system.cost" value="{{system.cost}}" data-dtype="String"/>
+      </div>
+
+      <div class="form-group">
+        <label>{{localize "DOWNTIME.RollDie"}}</label>
+        <input type="text" name="system.rollDie" value="{{system.rollDie}}" data-dtype="String" placeholder="e.g., 1d20, 2d6"/>
+      </div>
+
+      <div class="form-group current-outcome-group">
+        <label>{{localize "DOWNTIME.CurrentOutcome"}}</label>
+        <div class="editor-container">
+          {{editor system.currentOutcome target="system.currentOutcome" button=false owner=owner editable=false}} {{!-- Not editable by user --}}
+        </div>
+      </div>
+
+      <div class="form-group button-row">
+        <button type="button" class="downtime-roll-button">
+          <i class="fas fa-dice"></i> {{localize "DOWNTIME.RollActivity"}}
+        </button>
+        <button type="button" class="downtime-complete-button">
+          <i class="fas fa-check"></i> {{localize "DOWNTIME.MarkComplete"}}
+        </button>
+      </div>
+    </div>
+
+    {{!-- Outcomes Tab --}}
+    <div class="tab outcomes" data-tab="outcomes">
+      <div class="form-group button-row">
+        <button type="button" class="add-outcome-button">
+          <i class="fas fa-plus"></i> {{localize "DOWNTIME.AddOutcome"}}
+        </button>
+      </div>
+
+      <ol class="outcome-list">
+        {{#each system.outcomes as |outcome index|}}
+        <li class="outcome-item flexrow" data-index="{{index}}">
+          <div class="form-group outcome-range">
+            <label>{{localize "DOWNTIME.MinRoll"}}</label>
+            <input type="number" name="system.outcomes.{{index}}.minRoll" value="{{outcome.minRoll}}" data-dtype="Number"/>
+          </div>
+          <div class="form-group outcome-range">
+            <label>{{localize "DOWNTIME.MaxRoll"}}</label>
+            <input type="number" name="system.outcomes.{{index}}.maxRoll" value="{{outcome.maxRoll}}" data-dtype="Number"/>
+          </div>
+          <button type="button" class="remove-outcome-button" data-index="{{index}}">
+            <i class="fas fa-trash"></i>
+          </button>
+          <div class="form-group outcome-description">
+            <label>{{localize "DOWNTIME.OutcomeDescription"}}</label>
+            <div class="editor-container">
+              {{editor outcome.description target="system.outcomes.{{index}}.description" button=true owner=owner editable=editable}}
+            </div>
+          </div>
+        </li>
+        {{/each}}
+      </ol>
+    </div>
+
+  </section>
+</form>

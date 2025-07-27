@@ -1,0 +1,15 @@
+{
+  "name": "downtime-activities",
+  "title": "Downtime Activities Manager",
+  "description": "A system agnostic module to manage downtime activities as custom items, designed for Lancer out of the box.",
+  "version": "0.0.1",
+  "minimumCoreVersion": "11.307",
+  "compatibleCoreVersion": "11.307",
+  "author": "hylandpad",
+  "esmodules": ["downtime-module.js"],
+  "styles": ["css/downtime-module.css"],
+  "url": "https://github.com/hylandpad/foundryvtt_downtime_module",
+  "manifest": "",
+  "download": "",
+  "license": "LICENSE.txt"
+}
